@@ -49,8 +49,10 @@ const processImage = async (env, request, inputImage, pipeAction) => {
 export default {
 	async fetch(request, env, context) {
 		// 读取缓存
+		const cacheUrl = new URL(request.url);
+		const cacheKey = new Request(cacheUrl.toString(), request);
 		const cache = caches.default;
-		const hasCache = await cache.match(request);
+		const hasCache = await cache.match(cacheKey);
 		if (hasCache) {
 			return hasCache;
 		}
@@ -126,7 +128,7 @@ export default {
 			outputImage.ptr && outputImage.free();
 
 			// 写入缓存
-			context.waitUntil(cache.put(request, imageResponse.clone()));
+			context.waitUntil(cache.put(cacheKey, imageResponse.clone()));
 			return imageResponse;
 		} catch (error) {
 			console.error('process:error', error.name, error.message, error);
