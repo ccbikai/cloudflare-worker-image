@@ -1,0 +1,15 @@
+diff --git a/photon_rs_bg.js b/photon_rs_bg.js
+index 6279c156155076480155191f4d0afdaeb2d472a5..e8a7c7413ce4aee72f676d39f36218b4bbaadddb 100644
+--- a/photon_rs_bg.js
++++ b/photon_rs_bg.js
+@@ -1,4 +1,9 @@
+-import * as wasm from './photon_rs_bg.wasm';
++// import * as wasm from './photon_rs_bg.wasm';
++
++let wasm;
++export function setWasm(wasm_) {
++    wasm = wasm_;
++}
+ 
+ const heap = new Array(32).fill(undefined);
+ 

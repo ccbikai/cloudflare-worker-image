@@ -1,0 +1,27 @@
+{
+  "name": "image",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "build": "wrangler build",
+    "log": "wrangler tail"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "@jsquash/jpeg": "^1.4.0",
+    "@jsquash/png": "^2.2.0",
+    "@jsquash/webp": "^1.4.0",
+    "@silvia-odwyer/photon": "^0.3.2",
+    "query-string": "^8.1.0"
+  },
+  "pnpm": {
+    "patchedDependencies": {
+      "@silvia-odwyer/photon@0.3.2": "patches/@silvia-odwyer__photon@0.3.2.patch"
+    }
+  }
+}
