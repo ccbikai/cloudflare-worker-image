@@ -50,7 +50,7 @@ export default {
 	async fetch(request, env, context) {
 		// 读取缓存
 		const cacheUrl = new URL(request.url);
-		const cacheKey = new Request(cacheUrl.toString(), request);
+		const cacheKey = new Request(cacheUrl.toString());
 		const cache = caches.default;
 		const hasCache = await cache.match(cacheKey);
 		if (hasCache) {
