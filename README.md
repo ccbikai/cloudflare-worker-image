@@ -1,6 +1,6 @@
 # Cloudflare Worker Image
 
-使用 Cloudflare Worker 处理图片, 依赖 Photon(依赖 patch-package)、 Squash WebAssembly。
+使用 Cloudflare Worker 处理图片, 依赖 Photon(依赖 patch-package)、 Squash WebAssembly，支持缩放、剪裁、水印等功能。
 
 ---
 
