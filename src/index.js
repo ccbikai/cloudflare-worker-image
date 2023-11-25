@@ -97,7 +97,7 @@ export default {
 				 * `resize!800,400,1|watermark!https%3A%2F%2Fmt.ci%2Flogo.png,10,10,10,10`
 				 */
 			const pipe = action.split('|')
-			const outputImage = await pipe.reduce(async (result, pipeAction) => {
+			const outputImage = await pipe.filter(Boolean).reduce(async (result, pipeAction) => {
 				result = await result;
 				return (await processImage(env, request, result, pipeAction)) || result;
 			}, inputImage);
