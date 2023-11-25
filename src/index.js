@@ -28,7 +28,7 @@ const inWhiteList = (env, url) => {
 };
 
 const processImage = async (env, request, inputImage, pipeAction) => {
-	const [ action, options ] = pipeAction.split('!')
+	const [ action, options = '' ] = pipeAction.split('!')
 	const params = options.split(',');
 	if (multipleImageMode.includes(action)) {
 		const image2 = params.shift(); // 是否需要 decodeURIComponent ?
