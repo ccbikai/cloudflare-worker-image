@@ -13,7 +13,7 @@ import JPEG_ENC_WASM from '../node_modules/@jsquash/jpeg/codec/enc/mozjpeg_enc.w
 import PNG_ENC_WASM from '../node_modules/@jsquash/png/codec/squoosh_png_bg.wasm';
 
 // 图片处理
-const photonInstance = new WebAssembly.Instance(PHOTON_WASM, {
+const photonInstance = await WebAssembly.instantiate(PHOTON_WASM, {
 	'./photon_rs_bg.js': PHOTON_WASM_JS,
 });
 photon.setWasm(photonInstance.exports); // need patch
