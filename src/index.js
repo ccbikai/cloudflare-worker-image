@@ -12,6 +12,16 @@ import WEBP_ENC_WASM from '../node_modules/@jsquash/webp/codec/enc/webp_enc.wasm
 import JPEG_ENC_WASM from '../node_modules/@jsquash/jpeg/codec/enc/mozjpeg_enc.wasm';
 import PNG_ENC_WASM from '../node_modules/@jsquash/png/codec/squoosh_png_bg.wasm';
 
+// 图片处理
+const photonInstance = new WebAssembly.Instance(PHOTON_WASM, {
+	'./photon_rs_bg.js': PHOTON_WASM_JS,
+});
+photon.setWasm(photonInstance.exports); // need patch
+
+await initJpegWasm(JPEG_ENC_WASM);
+await initPngWasm(PNG_ENC_WASM);
+await initWebpWasm(WEBP_ENC_WASM);
+
 const OUTPUT_FORMATS = {
 	jpeg: 'image/jpeg',
 	jpg: 'image/jpeg',
@@ -28,12 +38,12 @@ const inWhiteList = (env, url) => {
 };
 
 const processImage = async (env, request, inputImage, pipeAction) => {
-	const [ action, options = '' ] = pipeAction.split('!')
+	const [action, options = ''] = pipeAction.split('!');
 	const params = options.split(',');
 	if (multipleImageMode.includes(action)) {
 		const image2 = params.shift(); // 是否需要 decodeURIComponent ?
 		if (image2 && inWhiteList(env, image2)) {
-			const image2Res = await fetch(image2, {headers: request.headers});
+			const image2Res = await fetch(image2, { headers: request.headers });
 			if (image2Res.ok) {
 				const inputImage2 = photon.PhotonImage.new_from_byteslice(new Uint8Array(await image2Res.arrayBuffer()));
 				// 多图处理是处理原图
@@ -54,6 +64,7 @@ export default {
 		const cache = caches.default;
 		const hasCache = await cache.match(cacheKey);
 		if (hasCache) {
+			console.log('cache: true');
 			return hasCache;
 		}
 
@@ -66,54 +77,51 @@ export default {
 			return new Response(null, {
 				status: 302,
 				headers: {
-					location: 'https://github.com/ccbikai/cloudflare-worker-image'
-				}
+					location: 'https://github.com/ccbikai/cloudflare-worker-image',
+				},
 			});
 		}
 
 		// 白名单检查
 		if (!inWhiteList(env, url)) {
+			console.log('whitelist: false');
 			return new Response(null, {
 				status: 403,
 			});
 		}
 
 		// 目标图片获取与检查
-		const imageRes = await fetch(url, {headers: request.headers});
+		const imageRes = await fetch(url, { headers: request.headers });
 		if (!imageRes.ok) {
 			return imageRes;
 		}
+		console.log('fetch image done');
 
 		const imageBytes = new Uint8Array(await imageRes.arrayBuffer());
 		try {
-			// 图片处理
-			const photonInstance = new WebAssembly.Instance(PHOTON_WASM, {
-				'./photon_rs_bg.js': PHOTON_WASM_JS,
-			});
-			photon.setWasm(photonInstance.exports); // need patch
 			const inputImage = photon.PhotonImage.new_from_byteslice(imageBytes);
+			console.log('create inputImage done');
 
 			/** pipe
-				 * `resize!800,400,1|watermark!https%3A%2F%2Fmt.ci%2Flogo.png,10,10,10,10`
-				 */
-			const pipe = action.split('|')
+			 * `resize!800,400,1|watermark!https%3A%2F%2Fmt.ci%2Flogo.png,10,10,10,10`
+			 */
+			const pipe = action.split('|');
 			const outputImage = await pipe.filter(Boolean).reduce(async (result, pipeAction) => {
 				result = await result;
 				return (await processImage(env, request, result, pipeAction)) || result;
 			}, inputImage);
+			console.log('create outputImage done');
 
 			// 图片编码
 			let outputImageData;
 			if (format === 'jpeg' || format === 'jpg') {
-				await initJpegWasm(JPEG_ENC_WASM);
 				outputImageData = await encodeJpeg(outputImage.get_image_data(), { quality });
 			} else if (format === 'png') {
-				await initPngWasm(PNG_ENC_WASM);
 				outputImageData = await encodePng(outputImage.get_image_data());
 			} else {
-				await initWebpWasm(WEBP_ENC_WASM);
 				outputImageData = await encodeWebp(outputImage.get_image_data(), { quality });
 			}
+			console.log('create outputImageData done');
 
 			// 返回体构造
 			const imageResponse = new Response(outputImageData, {
@@ -126,6 +134,7 @@ export default {
 			// 释放资源
 			inputImage.ptr && inputImage.free();
 			outputImage.ptr && outputImage.free();
+			console.log('image free done');
 
 			// 写入缓存
 			context.waitUntil(cache.put(cacheKey, imageResponse.clone()));
