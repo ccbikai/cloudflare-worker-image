@@ -61,7 +61,9 @@ quality:
 
 ## 演示
 
-![resize](https://image.miantiao.me/?url=https%3A%2F%2Fstatic.miantiao.me%2Fshare%2FMTyerw%2Fbanner-2048.jpeg&action=resize!830,400,2)
+### 缩放+旋转+文字水印
+
+![demo](https://image.miantiao.me/?url=https%3A%2F%2Fstatic.miantiao.me%2Fshare%2FMTyerw%2Fbanner-2048.jpeg&action=resize!830,400,2%7Crotate!180%7Cdraw_text!miantiao.me,10,10)
 
 由于 Github 会缓存图片，请前往我博客查看真实示例。
 
