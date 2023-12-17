@@ -1,6 +1,6 @@
 # Cloudflare Worker Image
 
-使用 Cloudflare Worker 处理图片, 依赖 Photon、 Squash WebAssembly，支持缩放、剪裁、水印、滤镜等功能。
+使用 Cloudflare Worker 处理图片, 依赖 Photon，支持缩放、剪裁、水印、滤镜等功能。
 
 ---
 
@@ -73,7 +73,7 @@ quality:
 
 - [Cloudflare](https://www.cloudflare.com)
 - [photon](https://github.com/silvia-odwyer/photon)
-- [jSquash](https://github.com/jamsinclair/jSquash)
+- [wasm-image-optimization](https://github.com/node-libraries/wasm-image-optimization)
 
 ---
 

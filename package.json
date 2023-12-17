@@ -13,11 +13,9 @@
     "wrangler": "^3.0.0"
   },
   "dependencies": {
-    "@jsquash/jpeg": "^1.4.0",
-    "@jsquash/png": "^2.2.0",
-    "@jsquash/webp": "^1.4.0",
     "@silvia-odwyer/photon": "^0.3.2",
-    "query-string": "^8.1.0"
+    "query-string": "^8.1.0",
+    "wasm-image-optimization": "^0.0.7"
   },
   "pnpm": {
     "patchedDependencies": {
