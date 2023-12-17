@@ -8,6 +8,8 @@
 ![GitHub License](https://img.shields.io/github/license/ccbikai/cloudflare-worker-image)
 ![GitHub Repo stars](https://img.shields.io/github/stars/ccbikai/cloudflare-worker-image)
 
+> 已经适配了 Vercel Edge, 见 <https://github.com/ccbikai/vercel-edge-image> 。
+
 ## 支持特性
 
 1. 支持 PNG、JPEG、BMP、ICO、TIFF 格式图片处理
