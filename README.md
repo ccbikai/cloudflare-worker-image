@@ -75,7 +75,7 @@ quality:
 
 - [Cloudflare](https://www.cloudflare.com)
 - [photon](https://github.com/silvia-odwyer/photon)
-- [wasm-image-optimization](https://github.com/node-libraries/wasm-image-optimization)
+- [jSquash](https://github.com/jamsinclair/jSquash)
 
 ---
 
