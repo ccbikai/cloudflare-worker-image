@@ -3,13 +3,16 @@ import queryString from 'query-string';
 import * as photon from '@silvia-odwyer/photon';
 import PHOTON_WASM from '../node_modules/@silvia-odwyer/photon/photon_rs_bg.wasm';
 
-import { optimizeImage } from 'wasm-image-optimization';
+import encodeWebp, { init as initWebpWasm } from '@jsquash/webp/encode';
+import WEBP_ENC_WASM from '../node_modules/@jsquash/webp/codec/enc/webp_enc.wasm';
 
 // 图片处理
 const photonInstance = await WebAssembly.instantiate(PHOTON_WASM, {
 	'./photon_rs_bg.js': photon,
 });
 photon.setWasm(photonInstance.exports); // need patch
+
+await initWebpWasm(WEBP_ENC_WASM);
 
 const OUTPUT_FORMATS = {
 	jpeg: 'image/jpeg',
@@ -108,10 +111,7 @@ export default {
 			} else if (format === 'png') {
 				outputImageData = outputImage.get_bytes()
 			} else {
-				outputImageData = await optimizeImage({
-					image: outputImage.get_bytes(),
-					quality
-				})
+				outputImageData = await encodeWebp(outputImage.get_image_data(), { quality });
 			}
 			console.log('create outputImageData done');
 

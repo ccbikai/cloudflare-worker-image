@@ -10,15 +10,15 @@ patchedDependencies:
     path: patches/@silvia-odwyer__photon@0.3.2.patch
 
 dependencies:
+  '@jsquash/webp':
+    specifier: ^1.4.0
+    version: 1.4.0
   '@silvia-odwyer/photon':
     specifier: ^0.3.2
     version: 0.3.2(patch_hash=fclsaxpz633a4bgmpxumge7wca)
   query-string:
     specifier: ^8.1.0
     version: 8.1.0
-  wasm-image-optimization:
-    specifier: ^0.0.7
-    version: 0.0.7
 
 devDependencies:
   wrangler:
@@ -298,6 +298,12 @@ packages:
     resolution: {integrity: sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==}
     engines: {node: '>=14'}
     dev: true
+
+  /@jsquash/webp@1.4.0:
+    resolution: {integrity: sha512-yKJb6Hilq+qV/4C4qTDEalBobNwJO09LeHHtilmWg5mYHFUDwMunfeAap/r3cL5KsHkGOoI0IjY2nKbTaHq9Bw==}
+    dependencies:
+      wasm-feature-detect: 1.6.1
+    dev: false
 
   /@silvia-odwyer/photon@0.3.2(patch_hash=fclsaxpz633a4bgmpxumge7wca):
     resolution: {integrity: sha512-1h5MFDyu4WYQwbFYtHcAl4FWxEZncgdo/tQFmrsiIiIglRt4R+VTiRrplDS+kCofEaafjXkwdXP1fRwh/pgA5A==}
@@ -696,8 +702,8 @@ packages:
       '@fastify/busboy': 2.1.0
     dev: true
 
-  /wasm-image-optimization@0.0.7:
-    resolution: {integrity: sha512-oMxiNlj2qHpiCTHVwu9kHzFPQy17tteT0hY6z+oob4TwMxw8aS+KfdFG7STpYJJHgFFqFkdsYrLJCxN9sHCF6w==}
+  /wasm-feature-detect@1.6.1:
+    resolution: {integrity: sha512-R1i9ED8UlLu/foILNB1ck9XS63vdtqU/tP1MCugVekETp/ySCrBZRk5I/zI67cI1wlQYeSonNm1PLjDHZDNg6g==}
     dev: false
 
   /workerd@1.20231030.0:
