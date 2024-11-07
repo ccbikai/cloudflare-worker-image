@@ -119,7 +119,7 @@ export default {
 			const imageResponse = new Response(outputImageData, {
 				headers: {
 					'content-type': OUTPUT_FORMATS[format],
-					'cache-control': 'public,max-age=15552000',
+					'cache-control': 'public,max-age=15552000,s-maxage=15552000',
 				},
 			});
 
