@@ -10,12 +10,12 @@
     "log": "wrangler tail"
   },
   "devDependencies": {
-    "wrangler": "^3.0.0"
+    "wrangler": "^4.10.0"
   },
   "dependencies": {
     "@jsquash/webp": "^1.4.0",
     "@silvia-odwyer/photon": "^0.3.2",
-    "query-string": "^8.1.0"
+    "query-string": "^9.1.1"
   },
   "pnpm": {
     "patchedDependencies": {
