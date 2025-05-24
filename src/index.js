@@ -4,7 +4,9 @@ import * as photon from '@silvia-odwyer/photon';
 import PHOTON_WASM from '../node_modules/@silvia-odwyer/photon/photon_rs_bg.wasm';
 
 import encodeWebp, { init as initWebpWasm } from '@jsquash/webp/encode';
+import decodeWebp, { init as initWebpDecodeWasm } from '@jsquash/webp/decode';
 import WEBP_ENC_WASM from '../node_modules/@jsquash/webp/codec/enc/webp_enc.wasm';
+import WEBP_DEC_WASM from '../node_modules/@jsquash/webp/codec/dec/webp_dec.wasm';
 
 // 图片处理
 const photonInstance = await WebAssembly.instantiate(PHOTON_WASM, {
@@ -13,6 +15,7 @@ const photonInstance = await WebAssembly.instantiate(PHOTON_WASM, {
 photon.setWasm(photonInstance.exports); // need patch
 
 await initWebpWasm(WEBP_ENC_WASM);
+await initWebpDecodeWasm(WEBP_DEC_WASM);
 
 const OUTPUT_FORMATS = {
 	jpeg: 'image/jpeg',
@@ -91,7 +94,25 @@ export default {
 
 		const imageBytes = new Uint8Array(await imageRes.arrayBuffer());
 		try {
-			const inputImage = photon.PhotonImage.new_from_byteslice(imageBytes);
+			const contentType = imageRes.headers.get('content-type');
+			let inputImage; // Will be PhotonImage
+			let decodedWebpImageData; // Will be ImageData if WEBP
+
+			if (contentType === 'image/webp') {
+				console.log('Attempting to decode WEBP image with jsquash/webp');
+				decodedWebpImageData = await decodeWebp(imageBytes);
+				console.log('Successfully decoded WEBP with jsquash. Dimensions:', decodedWebpImageData.width, 'x', decodedWebpImageData.height);
+				inputImage = photon.PhotonImage.from_rawpixels(
+					decodedWebpImageData.data,
+					decodedWebpImageData.width,
+					decodedWebpImageData.height,
+				);
+				console.log('Successfully converted jsquash decoded WebP to PhotonImage.');
+			} else {
+				console.log('Attempting to decode non-WEBP image with photon');
+				inputImage = photon.PhotonImage.new_from_byteslice(imageBytes);
+				console.log('Successfully decoded non-WEBP image with photon. Dimensions:', inputImage.get_width(), 'x', inputImage.get_height());
+			}
 			console.log('create inputImage done');
 
 			/** pipe
@@ -111,7 +132,9 @@ export default {
 			} else if (format === 'png') {
 				outputImageData = outputImage.get_bytes()
 			} else {
+				console.log('Attempting to encode final image to WEBP using jsquash/webp with quality:', quality);
 				outputImageData = await encodeWebp(outputImage.get_image_data(), { quality });
+				console.log('Successfully encoded final image to WEBP.');
 			}
 			console.log('create outputImageData done');
 
