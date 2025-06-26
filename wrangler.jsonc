@@ -6,6 +6,9 @@
 	"vars": {
 		"WHITE_LIST": "miantiao.me,mt.ci"
 	},
+	"observability": {
+		"enabled": true,
+	},
 	"containers": [
 		{
 			"max_instances": 2,
