@@ -27,14 +27,15 @@ export default {
 			return cacheResponse;
 		}
 
-		const url = new URL(request.url).searchParams.get('url');
+		const { pathname, searchParams } = new URL(request.url);
+		const url = searchParams.get('url');
 
-		if (!url) {
+		if (!url && pathname === '/') {
 			return Response.redirect('https://github.com/ccbikai/cloudflare-worker-image', 302);
 		}
 
 		// 白名单检查
-		if (!inWhiteList(env, url)) {
+		if (url && !inWhiteList(env, url)) {
 			return new Response(null, {
 				status: 403,
 			});
