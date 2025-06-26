@@ -1,0 +1,34 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "image",
+	"main": "src/index.js",
+	"compatibility_date": "2025-06-24",
+	"vars": {
+		"WHITE_LIST": "miantiao.me,mt.ci"
+	},
+	"containers": [
+		{
+			"max_instances": 2,
+			"name": "photon-container",
+			"class_name": "PhotonContainer",
+			"image": "./Dockerfile",
+			"instance_type": "dev"
+		}
+	],
+	"durable_objects": {
+		"bindings": [
+			{
+				"name": "PHOTON_CONTAINER",
+				"class_name": "PhotonContainer"
+			}
+		]
+	},
+	"migrations": [
+		{
+			"tag": "v1",
+			"new_sqlite_classes": [
+				"PhotonContainer"
+			]
+		}
+	]
+}

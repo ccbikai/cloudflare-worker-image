@@ -1,0 +1,11 @@
+[package]
+name = "photon-container"
+version = "2.0.0"
+edition = "2024"
+
+[dependencies]
+photon-rs = "0.3"
+actix-web = "4"
+image = "0.25"
+serde = "1"
+reqwest = "0.12"
