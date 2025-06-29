@@ -1,7 +1,11 @@
 use actix_web::{web, App, Error, HttpResponse, HttpServer, Responder};
 use serde::Serialize;
 
+mod actions;
+mod encoder;
+mod error;
 mod processor;
+mod utils;
 use processor::{process_image, ImageQuery};
 
 #[derive(Serialize)]
@@ -25,7 +29,7 @@ async fn status() -> impl Responder {
 }
 
 async fn apply_photon_effect(query: web::Query<ImageQuery>) -> Result<HttpResponse, Error> {
-    let (buf, content_type) = process_image(&query).await?;
+    let (buf, content_type) = process_image(query).await?;
 
     // Return the new image with a one-year cache header
     Ok(HttpResponse::Ok()
