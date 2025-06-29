@@ -15,7 +15,7 @@
 			"name": "photon-container",
 			"class_name": "PhotonContainer",
 			"image": "./Dockerfile",
-			"instance_type": "dev"
+			"instance_type": "basic"
 		}
 	],
 	"durable_objects": {
