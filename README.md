@@ -1,6 +1,9 @@
 # Cloudflare Worker Image
 
-使用 Cloudflare Worker 处理图片, 依赖 Photon，支持缩放、剪裁、水印、滤镜等功能。
+使用 Cloudflare Worker + Container 处理图片, 依赖 Photon，支持缩放、剪裁、水印、滤镜等功能。
+
+> [!TIP]
+> 纯 Worker 版本见 [v1](https://github.com/ccbikai/cloudflare-worker-image/tree/v1) 分支。
 
 ---
 
@@ -22,7 +25,6 @@
 ## 部署方式
 
 ```sh
-# patch 功能依赖 pnpm, 如果不使用 pnpm, 需要自己处理 patch-package https://www.npmjs.com/package/patch-package
 npm i -g pnpm
 
 # 克隆此项目
@@ -33,7 +35,7 @@ cd cloudflare-worker-image
 pnpm install
 
 # 修改白名单配置，改为图片域名或者留空不限制图片地址
-vi wrangler.toml # WHITE_LIST
+vi wrangler.jsonc # WHITE_LIST
 
 # 发布
 npm run deploy

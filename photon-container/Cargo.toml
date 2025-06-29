@@ -1,0 +1,15 @@
+[package]
+name = "photon-container"
+version = "2.0.0"
+edition = "2021"
+
+[dependencies]
+photon-rs = "0.3.2"
+actix-web = "4.8.0"
+image = { version = "0.25.1", default-features = false, features = ["jpeg", "png", "webp", "avif", "bmp", "ico", "tiff", "gif"] }
+serde = { version = "1.0.197", features = ["derive"] }
+reqwest = { version = "0.12.5", features = ["json"] }
+thiserror = "1.0.61"
+bytes = "1.6.0"
+log = "0.4.22"
+env_logger = "0.11.3"
