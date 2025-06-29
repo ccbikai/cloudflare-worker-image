@@ -46,7 +46,7 @@ export default {
 			const imageResponse = await container.fetch(request);
 
 			// 写入缓存
-			context.waitUntil(cache.put(cacheKey, imageResponse.clone()));
+			pathname === '/' && context.waitUntil(cache.put(cacheKey, imageResponse.clone()));
 			return imageResponse;
 		} catch (error) {
 			console.error('Failed to process request:', error, 'url:', request.url);
