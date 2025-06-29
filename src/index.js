@@ -50,7 +50,17 @@ export default {
 			return imageResponse;
 		} catch (error) {
 			console.error('Failed to process request:', error, 'url:', request.url);
-			return new Response('Failed to process request', { status: 500 });
+
+			const { pathname, searchParams } = new URL(request.url);
+			const url = searchParams.get('url');
+
+			if (pathname === '/' && url) {
+				return fetch(url);
+			}
+
+			return new Response('Internal Server Error', {
+				status: 500,
+			});
 		}
 	},
 }

@@ -34,7 +34,7 @@ pub async fn process_image(
     }
 
     // 4. Encode the image to the desired format
-    let format_str = query.format.as_deref().unwrap_or("png");
+    let format_str = query.format.as_deref().unwrap_or("webp");
     let (output_format, content_type) = encoder::get_image_output_format(format_str);
 
     let image_buffer = ImageBuffer::<Rgba<u8>, _>::from_raw(

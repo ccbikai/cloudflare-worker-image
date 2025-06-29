@@ -15,8 +15,8 @@
 
 ## 支持特性
 
-1. 支持 PNG、JPEG、BMP、ICO、TIFF 格式图片处理
-2. 可输出 JPEG、PNG、WEBP 格式图片，默认输出 WEBP 格式图片
+1. 支持 PNG、JPEG、BMP、ICO、TIFF 等格式图片处理
+2. 可输出 JPEG、PNG、WEBP、AVIF 等格式图片
 3. 支持管道操作，可以执行多个操作
 4. 支持 Cloudflare 缓存
 5. 支持图片地址白名单，防滥用
