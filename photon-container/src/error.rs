@@ -24,12 +24,6 @@ pub enum AppError {
 
     #[error("Invalid action parameter: {0}")]
     InvalidActionParam(String),
-
-    #[error("Failed to fetch watermark image: {0}")]
-    WatermarkFetchError(reqwest::Error),
-
-    #[error("Failed to decode watermark image: {0}")]
-    WatermarkDecodeError(image::ImageError),
 }
 
 impl ResponseError for AppError {
